@@ -1,0 +1,388 @@
+{
+	"info": {
+		"_postman_id": "f1723d24-c82a-498a-aeab-7f191f6156ae",
+		"name": "Coleccion grupo exito",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32210198"
+	},
+	"item": [
+		{
+			"name": "grupo exito",
+			"item": [
+				{
+					"name": "autenticacion y registro- sin seguridad",
+					"item": [
+						{
+							"name": "login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 202\", function () {\r",
+											"    if (pm.response.to.have.status(202)) {\r",
+											"        var jsonData = pm.response.json();\r",
+											"            \r",
+											"        pm.environment.set(\"grupoexito_token\", \"Bearer \" + jsonData.token);\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"alexis\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8091/api/grupoexito/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"api",
+										"grupoexito",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "registro",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"alexis\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8091/api/grupoexito/user/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"api",
+										"grupoexito",
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "usuarios - con seguridad",
+					"item": [
+						{
+							"name": "obtener usuarios",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{grupoexito_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8091/api/grupoexito/user/search-all-users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"api",
+										"grupoexito",
+										"user",
+										"search-all-users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "actualizar usuario",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{grupoexito_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"angelica\",\r\n    \"enabled\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8091/api/grupoexito/user/update-user/admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"api",
+										"grupoexito",
+										"user",
+										"update-user",
+										"admin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "eliminar usuario",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{grupoexito_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8091/api/grupoexito/user/delete-user/pepe",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"api",
+										"grupoexito",
+										"user",
+										"delete-user",
+										"pepe"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "tarjetas - con seguridad",
+					"item": [
+						{
+							"name": "crear tarjeta",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{grupoexito_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"code\": \"GFT123456100\",\r\n  \"amount\": 9000000,\r\n  \"expireDate\": \"2025-12-31T23:59:59\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8091/api/grupoexito/card/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"api",
+										"grupoexito",
+										"card",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "consultar tarjeta",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{grupoexito_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8091/api/grupoexito/card/gift-card/c41eaf38-a13c-4520-b238-1f8f896899e2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"api",
+										"grupoexito",
+										"card",
+										"gift-card",
+										"c41eaf38-a13c-4520-b238-1f8f896899e2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "actualizar tarjeta",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{grupoexito_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"code\": \"GFT123456102\",\r\n  \"amount\": 12000000,\r\n  \"expireDate\": \"2025-12-31T23:59:59\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8091/api/grupoexito/card/gift-card/c41eaf38-a13c-4520-b238-1f8f896899e2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"api",
+										"grupoexito",
+										"card",
+										"gift-card",
+										"c41eaf38-a13c-4520-b238-1f8f896899e2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "eliminar tarjeta",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{grupoexito_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8091/api/grupoexito/card/gift-card/c41eaf38-a13c-4520-b238-1f8f896899e2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"api",
+										"grupoexito",
+										"card",
+										"gift-card",
+										"c41eaf38-a13c-4520-b238-1f8f896899e2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "emitir tarjeta y encolar evento",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{grupoexito_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8091/api/grupoexito/card/emit/1da7c34e-c6a8-486c-bb3c-32a849c23b47",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"api",
+										"grupoexito",
+										"card",
+										"emit",
+										"1da7c34e-c6a8-486c-bb3c-32a849c23b47"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

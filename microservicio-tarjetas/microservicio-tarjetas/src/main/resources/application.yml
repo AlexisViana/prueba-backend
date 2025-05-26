@@ -1,0 +1,15 @@
+server:
+  port: 8001
+spring:
+  webflux:
+    base-path: /api/grupoexito
+  application:
+    name: microservicio-tarjetas
+  r2dbc:
+    url: r2dbc:postgresql://root_giftcard:root_giftcard@localhost:5435/giftcard_db
+  amqp:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    card-exchange: card-exchange

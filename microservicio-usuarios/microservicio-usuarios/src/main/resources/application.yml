@@ -1,0 +1,13 @@
+server:
+  port: 8002
+spring:
+  security:
+    user:
+      name: admin
+      password: admin
+  webflux:
+    base-path: /api/grupoexito
+  application:
+    name: microservicio-usuarios
+  r2dbc:
+    url: r2dbc:postgresql://root_user:root_user@localhost:5436/user_db

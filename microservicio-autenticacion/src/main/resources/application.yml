@@ -1,0 +1,17 @@
+server:
+  port: 8003
+  servlet:
+    context-path: /api/grupoexito
+spring:
+  application:
+    name: microservicio-autenticacion
+  jdbc:
+    url: jdbc:postgresql://localhost:5436/user_db
+    username: root_user
+    password: root_user
+    driver-class: org.postgresql.Driver
+jwt:
+  key-roles: roles
+  key-subject: name
+  expiration-time-hour: 20
+  secret: mzatdlgipxohcnezxnpumppnjquqngmtsscbltkgfperxsoczouetsyhiohgifkefmluxvkbepympeavrdvcmprfsexnyjejpwxyixzoxoiruvdsvufhsfscefxctefubgpngkpsrhssdqotqtvviknyzkazzyysdwnibiqdbctjdnrlulxzcmegsucolhyzyirwhqdrshinkajeomnfmpmajjammhpwwagkpyujzhrfwhvdtekboxjxtskdviqnoydsfqoasbbpfxgjviwmoqaubycvlelrvxufaqyijaud

@@ -1,0 +1,129 @@
+logging:
+  level:
+    reactor:
+      netty:
+        http:
+          client:
+            HttpClientOperations: TRACE
+            HttpClientRequest: TRACE
+            HttpClientResponse: TRACE
+            HttpClient: TRACE
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+microservices:
+  microservicio-autenticacion:
+    host: http://localhost:8003/
+    context-path: /api/grupoexito
+    end-point:
+      login: /login
+      encrypt: /encrypt
+  microservicio-usuarios:
+    host: http://localhost:8002/
+    context-path: /api/grupoexito
+    end-point:
+      create-user: /user/register
+      search-all-user: /user/search-all-users
+      update-user: /user/update-user/{username}
+      delete-user: /user/delete-user/{username}
+  microservicio-tarjetas:
+    host: http://localhost:8001/
+    context-path: /api/grupoexito
+    end-point:
+      create-gift-card: /card/create
+      search-gift-card: /card/gift-card/{id}
+      delete-gift-card: /card/gift-card/{id}
+      update-gift-card: /card/gift-card/{id}
+      emit-gift-card: /card/emit/{id}
+server:
+  port: 8091
+  forward-headers-strategy: native
+spring:
+  config:
+    import: "optional:configserver:"
+  cache:
+    type: none
+  webflux:
+    base-path: /api/grupoexito
+  application:
+    name: microservicio-apigateway
+  cloud:
+    gateway:
+      x-forwarded:
+        proto-enabled: true
+      httpclient:
+        wiretap: true
+      httpserver:
+        wiretap: true
+      routes:
+        - id: login
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-autenticacion.end-point.login}/**
+          uri: ${microservices.microservicio-autenticacion.host}
+        - id: encrypt
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-autenticacion.end-point.encrypt}/**
+          uri: ${microservices.microservicio-autenticacion.host}
+        - id: register-user
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-usuarios.end-point.create-user}/**
+          uri: ${microservices.microservicio-usuarios.host}
+        - id: create-user
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-usuarios.end-point.create-user}/**
+          uri: ${microservices.microservicio-usuarios.host}
+        - id: search-all-user
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-usuarios.end-point.search-all-user}/**
+          uri: ${microservices.microservicio-usuarios.host}
+        - id: update-user
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-usuarios.end-point.update-user}/**
+          uri: ${microservices.microservicio-usuarios.host}
+        - id: delete-user
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-usuarios.end-point.delete-user}/**
+          uri: ${microservices.microservicio-usuarios.host}
+        - id: create-gift-card
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-tarjetas.end-point.create-gift-card}/**
+          uri: ${microservices.microservicio-tarjetas.host}
+        - id: search-gift-card
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-tarjetas.end-point.search-gift-card}/**
+          uri: ${microservices.microservicio-tarjetas.host}
+        - id: delete-gift-card
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-tarjetas.end-point.delete-gift-card}/**
+          uri: ${microservices.microservicio-tarjetas.host}
+        - id: update-gift-card
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-tarjetas.end-point.update-gift-card}/**
+          uri: ${microservices.microservicio-tarjetas.host}
+        - id: emit-gift-card
+          predicates:
+            - Path=${spring.webflux.base-path}${microservices.microservicio-tarjetas.end-point.emit-gift-card}/**
+          uri: ${microservices.microservicio-tarjetas.host}
+routes:
+  public: "${spring.webflux.base-path}/login,${spring.webflux.base-path}/user/register"
+jwt:
+  secret: mzatdlgipxohcnezxnpumppnjquqngmtsscbltkgfperxsoczouetsyhiohgifkefmluxvkbepympeavrdvcmprfsexnyjejpwxyixzoxoiruvdsvufhsfscefxctefubgpngkpsrhssdqotqtvviknyzkazzyysdwnibiqdbctjdnrlulxzcmegsucolhyzyirwhqdrshinkajeomnfmpmajjammhpwwagkpyujzhrfwhvdtekboxjxtskdviqnoydsfqoasbbpfxgjviwmoqaubycvlelrvxufaqyijaud
+  algorithm: HS512
+  prefix: Bearer
+  authorization-header-name: Authorization
+cors:
+  allowed-origins: "http://localhost:4200"
+  allowed-methods: "GET,POST,OPTIONS"
+  allowed-headers: "Accept,Content-Type,Origin,Authorization"
+  allow-credentials: false
+  max-age: 3600
+
+management:
+  endpoint:
+    health:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "health"
